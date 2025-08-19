@@ -11,7 +11,7 @@ import { NgFor } from '@angular/common';
 })
 export class TodoComponent {
   nuevaTarea: string = '';
-  tareas: string[] = ['Estudiar Angular', 'Hacer la compra'];
+  tareas: string[] = [  ];
 
   agregarTarea() {
     if (this.nuevaTarea.trim()) {

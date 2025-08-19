@@ -1,0 +1,54 @@
+body {
+  margin: 0;
+  height: 100vh;                 /* ocupa toda la pantalla */
+  display: flex;                 
+  justify-content: center;       /* centra horizontal */
+  align-items: center;           /* centra vertical */
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;        /* fieldset arriba, lista abajo */
+  align-items: center;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  border: 3px solid black;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  display: block;
+  height: 35px;
+  border: 1px solid black;
+  font-size: 18px;
+  margin-bottom: 10px;
+  width: 90%;
+}
+
+.agrega {
+  margin-top: 10px;
+  border-radius: 20px;
+  background-color: white;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
