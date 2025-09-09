@@ -1,0 +1,22 @@
+<nav>
+  <h1>🛍️ Tiendita</h1>
+</nav>
+
+<h2 class="section-title">📦 Lista de productos</h2>
+
+<div class="products">
+  <div class="product-card" *ngFor="let product of products">
+    <img [src]="product.image" [alt]="product.name">
+    <h3>{{ product.name }}</h3>
+    <p>{{ product.description }}</p>
+    <p class="price">${{ product.price }}</p>
+
+    <button class="btn btn-primary" (click)="addToCart(product)">
+      ➕ Agregar al carrito
+    </button>
+    <button class="btn btn-secondary" [routerLink]="['/detail', product.id]">
+      🔎 Ver detalle
+    </button>
+  </div>
+</div>
+

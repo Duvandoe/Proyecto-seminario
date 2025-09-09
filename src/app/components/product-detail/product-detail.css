@@ -1,0 +1,95 @@
+.product-detail {
+  max-width: 900px;
+  margin: 50px auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  transition: all 0.3s ease;
+  border: 2px solid red !important;
+}
+
+.product-detail:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+.product-detail img {
+  width: 320px;
+  height: 280px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.product-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-info h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 15px;
+  color: #333;
+}
+
+.product-info p {
+  margin: 6px 0;
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.product-info .price {
+  font-size: 1.6rem;
+  color: #2ecc71;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.actions button {
+  flex: 1;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.actions .btn-primary {
+  background: linear-gradient(135deg, #6c63ff, #4a47d5);
+  color: #fff;
+}
+
+.actions .btn-primary:hover {
+  background: linear-gradient(135deg, #5a52e0, #3936b3);
+  transform: translateY(-2px);
+}
+
+.actions .btn-secondary {
+  background: linear-gradient(135deg, #00c896, #009f72);
+  color: #fff;
+}
+
+.actions .btn-secondary:hover {
+  background: linear-gradient(135deg, #00a87e, #007f5e);
+  transform: translateY(-2px);
+}
+
+

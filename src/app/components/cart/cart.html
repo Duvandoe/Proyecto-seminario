@@ -1,0 +1,48 @@
+<nav>
+  <h1>🛍️ Tiendita</h1>
+</nav>
+
+<div class="cart-container">
+  <h2>🛒 Tu carrito</h2>
+
+  <table class="cart-table" *ngIf="cartItems.length > 0; else emptyCart">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems">
+        <td class="cart-item">
+          <img [src]="item.image" [alt]="item.name">
+          {{ item.name }}
+        </td>
+        <td>${{ item.price }}</td>
+        <td>
+          <button class="remove-btn" (click)="removeFromCart(item)">❌ Quitar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #emptyCart>
+    <p style="text-align:center; font-size: 1.2rem; margin-top: 20px;">
+      🛍️ Tu carrito está vacío.
+    </p>
+  </ng-template>
+
+  <div *ngIf="cartItems.length > 0" class="cart-total">
+    Total: ${{ getTotal() }}
+  </div>
+
+  <div *ngIf="cartItems.length > 0">
+    <button class="checkout-btn" (click)="checkout()">
+      ✅ Finalizar compra
+    </button>
+  </div>
+</div>
+
+
