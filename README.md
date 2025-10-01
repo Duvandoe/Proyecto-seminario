@@ -4,10 +4,10 @@ Proyecto realizado a base del framework Angular version 20
 # REVISAR RAMAS
 
 # Integrantes
-Duvan Andrez Cardona Alomias
-Jazmin Patricia Garcia Herrera
-Pablo Murillo Lemus
-Luis Carlos Iturri
+1. Duvan Andrez Cardona Alomias
+2. Jazmin Patricia Garcia Herrera
+3. Pablo Murillo Lemus
+4. Luis Carlos Iturri
 
 # Pros de Angular
 1. Es un framework completo, ya que incluye todo lo necesario a la hora de programar: enrutamiento, formularios, HTTP, validaciones, etc. No necesitamos tantas librerias externas como en React o Vue.
