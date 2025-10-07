@@ -1,0 +1,32 @@
+<h2>🚗 Lista de Vehículos</h2>
+
+<!-- Estado de carga -->
+<div *ngIf="cargando">Cargando vehículos...</div>
+
+<!-- Error -->
+<div *ngIf="error" style="color: red;">{{ error }}</div>
+
+<!-- Tabla -->
+<table *ngIf="!cargando && !error" border="1" cellpadding="8">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Placa</th>
+      <th>Marca</th>
+      <th>Modelo</th>
+      <th>Capacidad</th>
+      <th>Combustible</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of vehiculos">
+      <td>{{ v.id }}</td>
+      <td>{{ v.placa }}</td>
+      <td>{{ v.marca }}</td>
+      <td>{{ v.modelo }}</td>
+      <td>{{ v.capacidad }}</td>
+      <td>{{ v.tipo_combustible }}</td>
+    </tr>
+  </tbody>
+</table>
+
