@@ -1,19 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environments';
+import { Vehiculo } from '../../../interfaces/Vehiculo';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Vehiculo {
-    id?: string;
-    perfil_id: string;
-    placa: string;
-    marca: string;
-    modelo: number;
-    capacidad: number;
-    tipo_combustible: string;
-    created_at?: string;
-    updated_at?: string;
-}
 
 @Injectable({
   providedIn: 'root'

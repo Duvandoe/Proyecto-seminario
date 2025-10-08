@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { VehiculosListaComponent } from './components/vehiculos-lista/vehiculos-lista';
+import { VehiculosRegistro } from './components/vehiculos-registro/vehiculos-registro';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, VehiculosListaComponent],
+  imports: [RouterOutlet, VehiculosListaComponent, VehiculosRegistro],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

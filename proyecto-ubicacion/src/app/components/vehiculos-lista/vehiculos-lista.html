@@ -1,4 +1,4 @@
-<h2>🚗 Lista de Vehículos</h2>
+<h2>Lista de Vehículos</h2>
 
 <!-- Estado de carga -->
 <div *ngIf="cargando">Cargando vehículos...</div>
@@ -14,7 +14,7 @@
       <th>Placa</th>
       <th>Marca</th>
       <th>Modelo</th>
-      <th>Capacidad</th>
+      <th>Activo</th>
       <th>Combustible</th>
     </tr>
   </thead>
@@ -24,7 +24,7 @@
       <td>{{ v.placa }}</td>
       <td>{{ v.marca }}</td>
       <td>{{ v.modelo }}</td>
-      <td>{{ v.capacidad }}</td>
+      <td>{{ v.activo ? 'Sí' : 'No' }}</td>
       <td>{{ v.tipo_combustible }}</td>
     </tr>
   </tbody>
