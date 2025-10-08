@@ -1,1 +1,14 @@
-<p>vehiculos-actualizacion works!</p>
+<h2>Editar Vehículo</h2>
+
+    <form (ngSubmit)="actualizarVehiculo()">
+      <label>Placa:</label>
+      <input [(ngModel)]="vehiculo.placa" name="placa" />
+
+      <label>Marca:</label>
+      <input [(ngModel)]="vehiculo.marca" name="marca" />
+
+      <label>Modelo:</label>
+      <input [(ngModel)]="vehiculo.modelo" name="modelo" />
+
+      <button type="submit">Guardar Cambios</button>
+    </form>

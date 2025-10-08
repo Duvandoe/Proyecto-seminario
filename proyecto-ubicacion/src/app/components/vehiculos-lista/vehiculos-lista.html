@@ -15,6 +15,7 @@
       <th>Marca</th>
       <th>Modelo</th>
       <th>Activo</th>
+      <th>Acciones</th>
     </tr>
   </thead>
   <tbody>
@@ -24,7 +25,12 @@
       <td>{{ v.marca }}</td>
       <td>{{ v.modelo }}</td>
       <td>{{ v.activo ? 'Sí' : 'No' }}</td>
+      <td>
+        <button (click)="actualizarVehiculo(v.id)">Editar</button>
+        <button (click)="eliminarVehiculo(v.id!)">Eliminar</button>
+      </td>
     </tr>
   </tbody>
 </table>
+<button (click)="obtenerVehiculos()">Refrescar Lista</button> 
 

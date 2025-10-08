@@ -3,6 +3,7 @@ import { VehiculosService } from '../../services/vehiculos/vehiculos';
 import { Vehiculo } from '../../../interfaces/Vehiculo';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common'
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -19,7 +20,7 @@ export class VehiculosListaComponent implements OnInit {
   cargando = true;
   error: string | null = null;
 
-  constructor(private vehiculosService: VehiculosService) {}
+  constructor(private vehiculosService: VehiculosService, private router: Router) {}
 
   ngOnInit(): void {
     this.obtenerVehiculos();
@@ -38,4 +39,22 @@ export class VehiculosListaComponent implements OnInit {
       }
     });
   }
+  actualizarVehiculo(id: string | undefined) {
+    if (!id) return;
+    this.router.navigate(['/vehiculos/editar', id]);
+  }
+
+  eliminarVehiculo(id: string) {
+  if (!confirm('¿Estás seguro de eliminar este vehículo?')) return;
+
+  this.vehiculosService.deleteVehiculo(id).subscribe({
+    next: () => {
+      alert('Vehículo eliminado correctamente');
+      this.obtenerVehiculos();
+    },
+    error: (err) => {
+      console.error('Error al eliminar vehículo:', err);
+    }
+  });
+}
 }
