@@ -6,13 +6,10 @@
     <input type="text" id="placa" [(ngModel)]="datos.placa" name="placa" required>
     
     <label for="marca">Marca:</label>
-    <input type="text" id="marca" [(ngModel)]="datos.marca" name="marca" required>
+    <input type="text" id="marca" [(ngModel)]="datos.marca" name="marca">
     
     <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" [(ngModel)]="datos.modelo" name="modelo" required>
-    
-    <label for="tipo_combustible">Tipo de Combustible:</label>
-    <input type="text" id="tipo_combustible" [(ngModel)]="datos.tipo_combustible" name="tipo_combustible" required>
+    <input type="text" id="modelo" [(ngModel)]="datos.modelo" name="modelo">
     
     <button type="button" (click)="registroVehiculo()">Registrar Vehículo</button>
 

@@ -13,8 +13,8 @@ export class VehiculosService {
 
   constructor(private http: HttpClient) { }
 
-  getVehiculos(): Observable<Vehiculo[]> {
-    return this.http.get<Vehiculo[]>(`${this.apiUrl}/vehiculos?perfil_id=${this.perfilUrl}`);
+  getVehiculos(): Observable<{data: Vehiculo[]}> {
+    return this.http.get<{data: Vehiculo[]}>(`${this.apiUrl}/vehiculos?perfil_id=${this.perfilUrl}`);
   }
 
   createVehiculo(vehiculo: Vehiculo): Observable<Vehiculo> {

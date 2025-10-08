@@ -5,5 +5,4 @@ export interface Vehiculo {
     marca: null | string;
     modelo: null | string;
     activo: boolean;
-    tipo_combustible: string;
 }

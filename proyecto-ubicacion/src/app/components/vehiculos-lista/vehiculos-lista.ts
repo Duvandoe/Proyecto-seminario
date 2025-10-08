@@ -29,7 +29,7 @@ export class VehiculosListaComponent implements OnInit {
     this.vehiculosService.getVehiculos().subscribe({
       next: (data) => {
         console.log('Vehículos cargados:', data);
-        this.vehiculos = data;
+        this.vehiculos = data.data;
         this.cargando = false;
       },
       error: (err) => {

@@ -27,7 +27,6 @@ export class VehiculosRegistro {
     marca: null,
     modelo: null,
     activo: true,
-    tipo_combustible: ''
   };
 
   constructor(private vehiculosService: VehiculosService) { }
