@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>Rutas y Mapa</h2>
+  <div *ngIf="loading">Cargando...</div>
+
+  <div class="content-wrapper">
+    <div id="container-mapa" #containerMapa>
+      <div id="map" #mapEl></div>
+    </div>
+
+    <div class="rutas-lista">
+      <table *ngIf="rutas.length > 0; else sinRutas">
+        <thead>
+          <tr><th>Nombre</th><th>Color</th><th>Perfil</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ruta of rutas" (click)="zoomToRuta(ruta)">
+            <td>{{ ruta.nombre_ruta }}</td>
+            <td><span class="color-box" [style.background]="ruta.color_hex"></span>{{ ruta.color_hex }}</td>
+            <td>{{ ruta.perfil_id }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <ng-template #sinRutas><p>No hay rutas registradas.</p></ng-template>
+    </div>
+  </div>
+</div>
