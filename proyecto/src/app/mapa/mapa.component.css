@@ -1,0 +1,55 @@
+.contenedor {
+  display: flex;
+  height: 100vh;
+}
+
+.panel-lateral {
+  width: 250px;
+  background: #f8f9fa;
+  border-right: 2px solid #ddd;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.panel-lateral h3 {
+  margin-bottom: 10px;
+}
+
+.panel-lateral ul {
+  list-style: none;
+  padding: 0;
+}
+
+.panel-lateral li {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.panel-lateral li:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.mapa {
+  flex: 1;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-contenido {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}

@@ -1,0 +1,22 @@
+<div class="contenedor">
+  <div class="panel-lateral">
+    <h3>📍 Rutas guardadas</h3>
+    <ul>
+      <li *ngFor="let ruta of rutas" (click)="centrarRuta(ruta)">
+        {{ ruta.nombre_ruta || 'Ruta sin nombre' }}
+      </li>
+    </ul>
+  </div>
+
+  <div id="mapa" class="mapa"></div>
+
+  <!-- Modal para confirmar guardado -->
+  <div class="modal" *ngIf="mostrarModal">
+    <div class="modal-contenido">
+      <h3>Guardar nueva ruta</h3>
+      <input type="text" [(ngModel)]="nombreRuta" placeholder="Nombre de la ruta">
+      <button (click)="confirmarGuardarRuta()">Guardar</button>
+      <button (click)="cancelarGuardarRuta()">Cancelar</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,3 @@
+- [ ] Update rutas.service.ts to make listarRutas accept perfilId parameter
+- [ ] Add listarVehiculos method to vehiculos.service.ts
+- [ ] Fix typing in mapa.component.ts for err parameter and geojson object
