@@ -1,6 +1,5 @@
 <div class="container">
   <h2>Rutas y Mapa</h2>
-  <div *ngIf="loading">Cargando...</div>
 
   <div class="content-wrapper">
     <div id="container-mapa" #containerMapa>
@@ -8,6 +7,22 @@
     </div>
 
     <div class="rutas-lista">
+      <h3>Crear trazo</h3>
+
+      <div class="draw-controls">
+        <label>Nombre: <input type="text" [(ngModel)]="newRutaName"></label>
+        <label>Color:
+          <input type="color" [(ngModel)]="newRutaColor" [value]="newRutaColor || '#ff0000'">
+        </label>
+        <p>Usa la herramienta de dibujo en el mapa (ícono de línea) para trazar. Después haz Guardar.</p>
+
+        <button (click)="saveDrawnRuta()" [disabled]="!lastGeo || saving">
+          {{ saving ? 'Guardando...' : 'Guardar trazo' }}
+        </button>
+        <button (click)="cancelDraw()" [disabled]="!lastGeo">Cancelar trazo</button>
+      </div>
+
+      <h3 style="margin-top:16px;">Rutas</h3>
       <table *ngIf="rutas.length > 0; else sinRutas">
         <thead>
           <tr><th>Nombre</th><th>Color</th><th>Perfil</th></tr>
@@ -20,8 +35,19 @@
           </tr>
         </tbody>
       </table>
-
       <ng-template #sinRutas><p>No hay rutas registradas.</p></ng-template>
+
+      <h3 style="margin-top:16px;">Calles</h3>
+      <table *ngIf="calles.length > 0; else sinCalles">
+        <thead><tr><th>Nombre</th><th>ID</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let calle of calles" (click)="zoomToCalle(calle)">
+            <td>{{ calle.nombre }}</td>
+            <td>{{ calle.id }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #sinCalles><p>No hay calles registradas.</p></ng-template>
     </div>
   </div>
 </div>
