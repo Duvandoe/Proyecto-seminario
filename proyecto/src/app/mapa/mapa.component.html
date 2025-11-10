@@ -1,22 +1,48 @@
 <div class="contenedor">
-  <div class="panel-lateral">
-    <h3>📍 Rutas guardadas</h3>
-    <ul>
-      <li *ngFor="let ruta of rutas" (click)="centrarRuta(ruta)">
-        {{ ruta.nombre_ruta || 'Ruta sin nombre' }}
+  <aside class="panel-rutas" *ngIf="mostrarPanelRutas">
+    <h3>🗂️ Rutas guardadas</h3>
+
+    <ul class="lista-rutas">
+      <li
+        *ngFor="let ruta of rutas"
+        (click)="centrarRuta(ruta)"
+        class="item-ruta"
+        [class.seleccionada]="rutaSeleccionada?.id === ruta.id"
+        [title]="'Ver detalles de ' + (ruta.nombre_ruta || 'Ruta sin nombre')"
+      >
+        <span class="color" [style.backgroundColor]="ruta.color_hex || '#007bff'"></span>
+        <span class="nombre">{{ ruta.nombre_ruta || 'Sin nombre' }}</span>
       </li>
     </ul>
+
+    <button class="btn-cerrar" (click)="togglePanelRutas()">✖ Cerrar</button>
+  </aside>
+
+  <section id="mapa" class="mapa" aria-label="Mapa interactivo"></section>
+
+  <div class="acciones-superior">
+    <button class="btn btn-primary" (click)="abrirModalGuardarRuta()">💾 Guardar ruta</button>
+    <button class="btn btn-secondary" (click)="resetMapa()">♻️ Limpiar mapa</button>
+    <button class="btn btn-success" (click)="togglePanelRutas()">
+      📁 {{ mostrarPanelRutas ? 'Ocultar rutas' : 'Ver rutas guardadas' }}
+    </button>
   </div>
 
-  <div id="mapa" class="mapa"></div>
-
-  <!-- Modal para confirmar guardado -->
-  <div class="modal" *ngIf="mostrarModal">
+  <div *ngIf="mostrarModal" class="modal">
     <div class="modal-contenido">
-      <h3>Guardar nueva ruta</h3>
-      <input type="text" [(ngModel)]="nombreRuta" placeholder="Nombre de la ruta">
-      <button (click)="confirmarGuardarRuta()">Guardar</button>
-      <button (click)="cancelarGuardarRuta()">Cancelar</button>
+      <h3>Guardar ruta</h3>
+      <input
+        id="nombre"
+        name="nombre"
+        type="text"
+        [(ngModel)]="nombreRuta"
+        placeholder="Ejemplo: Ruta principal"
+        class="input-texto"
+      />
+      <div class="acciones-modal">
+        <button class="btn-guardar" (click)="confirmarGuardarRuta()">💾 Guardar</button>
+        <button class="btn-cancelar" (click)="cancelarGuardarRuta()">❌ Cancelar</button>
+      </div>
     </div>
   </div>
 </div>

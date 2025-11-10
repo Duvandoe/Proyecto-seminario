@@ -1,25 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import { RutasService } from '../mapa/rutas.service';
 import { VehiculosService } from '../mapa/vehiculos.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../../environments/environment';
+import { Feature, Geometry } from 'geojson';
 
 @Component({
   selector: 'app-mapa',
   templateUrl: './mapa.component.html',
   styleUrls: ['./mapa.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule]
+  imports: [CommonModule, FormsModule]
 })
 export class MapaComponent implements OnInit {
-
   mapa!: mapboxgl.Map;
   puntos: [number, number][] = [];
   mostrarModal = false;
+  mostrarPanelRutas = false;
   nombreRuta = '';
-  perfilId = '2ec8003d-6d56-4124-bce5-fc60ed79c4b8';
-  rutas: any[] = []; // 🔹 Aquí guardamos las rutas cargadas
+  rutas: any[] = [];
+  rutaSeleccionada: any = null;
 
   constructor(
     private rutasService: RutasService,
@@ -27,9 +29,9 @@ export class MapaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Inicializar mapa centrado en Buenaventura
+    (mapboxgl as any).accessToken = environment.mapboxToken;
+
     this.mapa = new mapboxgl.Map({
-      accessToken: 'pk.eyJ1IjoibmVvMTk5OTIiLCJhIjoiY21oMDIxbzl6MHh2ODJscG9mYWYxbnp5eiJ9.CsAEqW3UVmpayCRVWfqqng',
       container: 'mapa',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [-77.02824, 3.8801],
@@ -37,94 +39,136 @@ export class MapaComponent implements OnInit {
     });
 
     this.mapa.on('click', (event) => this.agregarPunto(event.lngLat));
+
     this.mapa.on('load', () => {
       this.cargarRutas();
       this.cargarVehiculos();
     });
   }
 
-  // 🔹 Cargar rutas y guardarlas para mostrar en el panel
-  cargarRutas(): void {
-    this.rutasService.listarRutas(this.perfilId).subscribe({
+    cargarRutas(): void {
+    this.rutasService.listarRutas(environment.perfil_id).subscribe({
       next: (rutas: any[]) => {
-        this.rutas = rutas;
-        console.log('📍 Rutas cargadas:', rutas);
-        rutas.forEach((ruta) => {
-          if (ruta.shape?.coordinates) {
-            const id = `ruta-${ruta.id}`;
-            if (!this.mapa.getSource(id)) {
-              this.mapa.addSource(id, {
-                type: 'geojson',
-                data: { type: 'Feature', geometry: ruta.shape, properties: {} }
-              });
-              this.mapa.addLayer({
-                id,
-                type: 'line',
-                source: id,
-                layout: { 'line-join': 'round', 'line-cap': 'round' },
-                paint: { 'line-color': '#FF9800', 'line-width': 3 }
-              });
+        this.rutas = rutas.map(ruta => {
+          try {
+            if (typeof ruta.shape === 'string') {
+              ruta.shape = JSON.parse(ruta.shape);
             }
+          } catch {
+            console.warn('⚠️ Ruta con shape inválido:', ruta.nombre_ruta);
           }
+          return ruta;
         });
+        console.log('✅ Rutas cargadas:', this.rutas);
       },
-      error: (err: any) => console.error('❌ Error al cargar rutas:', err)
+      error: (err) => console.error('❌ Error al cargar rutas:', err)
     });
   }
 
-  // 🔹 Cargar vehículos
-  cargarVehiculos(): void {
-    this.vehiculosService.listarVehiculos(this.perfilId).subscribe({
-      next: (vehiculos: any[]) => {
-        vehiculos.forEach((vehiculo) => {
-          if (vehiculo.ubicacion?.coordinates) {
-            const [lng, lat] = vehiculo.ubicacion.coordinates;
-            new mapboxgl.Marker({ color: '#28a745' })
-              .setLngLat([lng, lat])
-              .setPopup(new mapboxgl.Popup().setText(`🚘 ${vehiculo.nombre || 'Vehículo sin nombre'}`))
-              .addTo(this.mapa);
+  obtenerDetallesRuta(id: string): void {
+    this.rutasService.obtenerRutaPorId(id, environment.perfil_id).subscribe({
+      next: (ruta) => {
+        try {
+          if (typeof ruta.shape === 'string') {
+            ruta.shape = JSON.parse(ruta.shape);
           }
-        });
+          console.log('📍 Detalles de ruta obtenidos:', ruta);
+          this.dibujarRutaSeleccionada(ruta);
+        } catch (e) {
+          console.error('⚠️ Error al procesar ruta:', e);
+        }
       },
-      error: (err: any) => console.error('❌ Error al cargar vehículos:', err)
+      error: (err) => console.error('❌ Error al obtener detalles de ruta:', err)
     });
   }
 
-  // 🔹 Centrar el mapa sobre una ruta seleccionada
-  centrarRuta(ruta: any): void {
-    if (ruta.shape?.coordinates?.length) {
-      const coords = ruta.shape.coordinates;
-      const bounds = new mapboxgl.LngLatBounds();
-      coords.forEach((c: [number, number]) => bounds.extend(c));
-      this.mapa.fitBounds(bounds, { padding: 40 });
+  dibujarRutaSeleccionada(ruta: any): void {
+    if (!ruta || !ruta.shape) {
+      console.warn('⚠️ Ruta sin geometría válida');
+      return;
+    }
 
-      // Resaltar la ruta seleccionada
-      const id = `ruta-${ruta.id}`;
-      if (this.mapa.getLayer(id)) {
-        this.mapa.setPaintProperty(id, 'line-color', '#2196F3');
-        this.mapa.setPaintProperty(id, 'line-width', 5);
+    // Eliminar la anterior si ya hay una
+    this.eliminarRutaSeleccionada();
+
+    let coords: [number, number][] = [];
+
+    if (ruta.shape.type === 'LineString') {
+      coords = ruta.shape.coordinates;
+    } else if (ruta.shape.type === 'MultiLineString') {
+      coords = ruta.shape.coordinates[0];
+    }
+
+    if (!coords || coords.length === 0) {
+      console.warn('⚠️ Ruta sin coordenadas');
+      return;
+    }
+
+    this.mapa.addSource('rutaSeleccionada', {
+      type: 'geojson',
+      data: {
+        type: 'Feature',
+        geometry: {
+          type: 'LineString',
+          coordinates: coords
+        },
+        properties: {}
       }
+    });
+
+    this.mapa.addLayer({
+      id: 'rutaSeleccionada',
+      type: 'line',
+      source: 'rutaSeleccionada',
+      paint: {
+        'line-color': ruta.color_hex || '#ff0000',
+        'line-width': 5
+      }
+    });
+
+    const bounds = new mapboxgl.LngLatBounds();
+    coords.forEach(coord => bounds.extend(coord));
+    this.mapa.fitBounds(bounds, { padding: 50 });
+
+    this.rutaSeleccionada = ruta;
+  }
+
+  eliminarRutaSeleccionada(): void {
+    if (this.mapa.getLayer('rutaSeleccionada')) {
+      this.mapa.removeLayer('rutaSeleccionada');
+    }
+    if (this.mapa.getSource('rutaSeleccionada')) {
+      this.mapa.removeSource('rutaSeleccionada');
     }
   }
 
-  // 🔹 Agregar punto con clic
+  cargarVehiculos(): void {
+    this.vehiculosService.listarVehiculos(environment.perfil_id).subscribe({
+      error: (err) => console.error('❌ Error al cargar vehículos:', err)
+    });
+  }
+
+
+  abrirModalGuardarRuta() {
+    if (this.puntos.length < 2) {
+      alert('⚠️ Debe marcar al menos dos puntos para guardar una ruta.');
+      return;
+    }
+    this.mostrarModal = true;
+  }
+
   agregarPunto(lngLat: mapboxgl.LngLat) {
     const punto: [number, number] = [lngLat.lng, lngLat.lat];
     this.puntos.push(punto);
     new mapboxgl.Marker().setLngLat(punto).addTo(this.mapa);
-
-    if (this.puntos.length === 2) {
-      this.dibujarLinea();
-      this.mostrarModal = true;
-    }
+    this.dibujarLinea();
   }
 
-  // 🔹 Dibujar línea temporal
   dibujarLinea() {
-    const geojson: any = {
+    const geojson: Feature<Geometry> = {
       type: 'Feature',
-      properties: {},
-      geometry: { type: 'LineString', coordinates: this.puntos }
+      geometry: { type: 'LineString', coordinates: this.puntos },
+      properties: {}
     };
 
     if (this.mapa.getSource('linea')) {
@@ -135,39 +179,52 @@ export class MapaComponent implements OnInit {
         id: 'linea',
         type: 'line',
         source: 'linea',
-        layout: { 'line-join': 'round', 'line-cap': 'round' },
-        paint: { 'line-color': '#007bff', 'line-width': 4 }
+        paint: { 'line-color': '#87e487ff', 'line-width': 4 }
       });
     }
   }
 
-  // 🔹 Guardar la nueva ruta
   confirmarGuardarRuta() {
-    const nuevaRuta = {
-      nombre_ruta: this.nombreRuta || 'Ruta sin nombre',
-      perfil_id: this.perfilId,
-      shape: { type: 'LineString', coordinates: this.puntos },
-      calles_ids: []
+    const nombreRutaFinal = (this.nombreRuta || '').trim();
+    if (!nombreRutaFinal) {
+      alert('⚠️ Debes escribir un nombre para la ruta antes de guardar.');
+      return;
+    }
+
+    if (this.puntos.length < 2) {
+      alert('⚠️ Debes marcar al menos dos puntos en el mapa.');
+      return;
+    }
+
+    const shapeObject = {
+      type: 'MultiLineString',
+      coordinates: [this.puntos]
     };
 
-    this.rutasService.crearRuta(nuevaRuta).subscribe({
+    const body = {
+      nombre_ruta: nombreRutaFinal,
+      perfil_id: environment.perfil_id,
+      color_hex: '#8ee6a4ff',
+      shape: JSON.stringify(shapeObject)
+    };
+
+    this.rutasService.crearRuta(body).subscribe({
       next: () => {
-        alert('✅ Ruta guardada correctamente');
+        alert(`✅ Ruta "${nombreRutaFinal}" guardada correctamente`);
         this.resetMapa();
         this.cargarRutas();
+        this.nombreRuta = '';
+        this.mostrarModal = false;
       },
       error: (err) => {
-        alert('❌ Error al guardar la ruta');
-        console.error(err);
+        console.error('❌ Error al guardar ruta:', err);
+        alert('❌ Error al guardar la ruta.');
       }
     });
-
-    this.mostrarModal = false;
   }
 
   cancelarGuardarRuta() {
     this.mostrarModal = false;
-    this.resetMapa();
   }
 
   resetMapa() {
@@ -177,5 +234,14 @@ export class MapaComponent implements OnInit {
       this.mapa.removeLayer('linea');
       this.mapa.removeSource('linea');
     }
+    this.eliminarRutaSeleccionada();
+  }
+
+  centrarRuta(ruta: any): void {
+    this.obtenerDetallesRuta(ruta.id);
+  }
+
+  togglePanelRutas() {
+    this.mostrarPanelRutas = !this.mostrarPanelRutas;
   }
 }
