@@ -1,0 +1,15 @@
+/* Estilo coherente para edición de vehículo */
+:root{ --bg:#f0f7ff; --primary:#0b6eff; --accent:#62bdf7; --muted:#55626f; --radius:10px; --card:#fff; --shadow:0 6px 18px rgba(8,35,80,0.06); }
+.card{ background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);} 
+.card-header{ margin-bottom:10px; }
+.title{ margin:0; font-size:1.2rem; }
+.subtitle{ margin:0;color:var(--muted); font-size:0.9rem; }
+.form{ display:grid; grid-template-columns:1fr 1fr; gap:12px 16px; }
+.form-row{ display:flex; flex-direction:column; }
+.form-row label{ font-size:0.85rem; color:var(--muted); margin-bottom:6px; }
+.input{ padding:10px; border:1px solid #e6e9ef; border-radius:8px; }
+.form-actions{ grid-column:1 / -1; display:flex; justify-content:flex-end; margin-top:8px; }
+.btn{ padding:8px 12px; border-radius:8px; border:none; cursor:pointer; }
+.btn-primary{ background:linear-gradient(90deg,var(--primary),var(--accent)); color:#fff; }
+@media(max-width:640px){ .form{ grid-template-columns:1fr; } .form-actions{ justify-content:stretch;} .btn{ width:100%; } }
+

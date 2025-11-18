@@ -1,0 +1,18 @@
+/* Styles for vehiculos-lista: tables and actions */
+:root{ --bg:#f0f7ff; --primary:#0b6eff; --accent:#62bdf7; --muted:#55626f; --danger:#ef4444; --card:#fff; --radius:10px; --shadow:0 6px 18px rgba(8,35,80,0.06);} 
+.card{ background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow);} 
+.card-header{ margin-bottom:10px; }
+.title{ margin:0; font-size:1.25rem; }
+.subtitle{ margin:0;color:var(--muted); font-size:0.9rem; }
+.muted{ color:var(--muted); }
+.error{ color: #b91c1c; }
+.table{ width:100%; border-collapse:collapse; margin-top:8px; }
+.table thead th{ text-align:left; padding:10px 8px; border-bottom:1px solid #eef2f6; }
+.table tbody td{ padding:10px 8px; border-bottom:1px solid #f1f5f9; }
+.actions-cell{ display:flex; gap:8px; }
+.btn{ padding:8px 10px; border-radius:8px; border:none; cursor:pointer; }
+.btn-primary{ background:linear-gradient(90deg,var(--primary),var(--accent)); color:#fff; }
+.btn-danger{ background:var(--danger); color:#fff; }
+.actions-row{ margin-top:10px; display:flex; justify-content:flex-end; }
+@media(max-width:640px){ .card{ padding:12px; } .title{ font-size:1.1rem;} .actions-row{ justify-content:stretch;} .btn{ width:100%; } }
+

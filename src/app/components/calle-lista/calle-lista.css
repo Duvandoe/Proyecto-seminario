@@ -1,0 +1,33 @@
+/* Estilos compartidos: card, table */
+:root {
+	--bg: #f0f7ff;
+	--card: #ffffff;
+	--muted: #55626f;
+	--primary: #0b6eff;
+	--primary-dark: #0645c2;
+	--accent: #62bdf7;
+	--radius: 10px;
+	--shadow: 0 6px 18px rgba(8,35,80,0.06);
+}
+
+.card {
+	background: var(--card);
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+	padding: 18px;
+	box-sizing: border-box;
+}
+
+.card-header { margin-bottom: 10px; }
+.title { margin: 0; font-size: 1.25rem; color: #0f172a; }
+.subtitle { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+.card-body { overflow: auto; }
+
+.table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.table thead th { text-align: left; padding: 10px 8px; color: #0f172a; font-weight: 700; border-bottom: 1px solid #eef2f6; }
+.table tbody td { padding: 10px 8px; border-bottom: 1px solid #f1f5f9; }
+.table tbody tr:hover { background: #fbfeff; }
+
+@media (max-width:640px){ .card { padding: 14px; } .title{font-size:1.1rem;} }
+

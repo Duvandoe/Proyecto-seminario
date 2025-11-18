@@ -1,0 +1,70 @@
+<section class="card rutas-card">
+  <header class="card-header">
+    <h2 class="title">Rutas y Mapa</h2>
+    <p class="subtitle">Dibuja rutas en el mapa y administra trazos</p>
+  </header>
+
+  <div class="card-body content-wrapper">
+    <div id="container-mapa" #containerMapa class="map-container">
+      <!-- Overlay de ayuda visual (solo HTML/CSS, no toca lógica) -->
+      <div class="map-instructions" aria-hidden="false">Usa la herramienta de dibujo y luego presiona <strong>Guardar trazo</strong></div>
+      <div id="map" #mapEl class="map-el"></div>
+    </div>
+
+    <aside class="rutas-lista">
+      <!-- Mensajes de notificación -->
+      <div class="alerts">
+        <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+        <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+      </div>
+      <section class="card-section">
+        <h3>Crear trazo</h3>
+        <div class="draw-controls">
+          <label>Nombre: <input class="input" type="text" [(ngModel)]="newRutaName"></label>
+          <label>Color:
+            <input type="color" [(ngModel)]="newRutaColor" [value]="newRutaColor || '#ff0000'">
+          </label>
+          <p class="help">Usa la herramienta de dibujo en el mapa (ícono de línea) para trazar. Después haz Guardar.</p>
+
+          <div class="actions">
+            <button class="btn btn-primary" (click)="saveDrawnRuta()" [disabled]="!lastGeo || saving">
+              {{ saving ? 'Guardando...' : 'Guardar trazo' }}
+            </button>
+            <button class="btn" (click)="cancelDraw()" [disabled]="!lastGeo">Cancelar trazo</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="card-section">
+        <h3>Rutas</h3>
+        <table *ngIf="rutas.length > 0; else sinRutas" class="table">
+          <thead>
+            <tr><th>Nombre</th><th>Color</th><th>Perfil</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ruta of rutas" (click)="zoomToRuta(ruta)">
+              <td>{{ ruta.nombre_ruta }}</td>
+              <td><span class="color-box" [style.background]="ruta.color_hex"></span>{{ ruta.color_hex }}</td>
+              <td>{{ ruta.perfil_id }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #sinRutas><p>No hay rutas registradas.</p></ng-template>
+      </section>
+
+      <section class="card-section">
+        <h3>Calles</h3>
+        <table *ngIf="calles.length > 0; else sinCalles" class="table">
+          <thead><tr><th>Nombre</th><th>ID</th></tr></thead>
+          <tbody>
+            <tr *ngFor="let calle of calles" (click)="zoomToCalle(calle)">
+              <td>{{ calle.nombre }}</td>
+              <td>{{ calle.id }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #sinCalles><p>No hay calles registradas.</p></ng-template>
+      </section>
+    </aside>
+  </div>
+</section>

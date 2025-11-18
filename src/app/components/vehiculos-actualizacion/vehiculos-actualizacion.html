@@ -1,0 +1,29 @@
+<section class="card vehiculo-actualizacion">
+  <header class="card-header">
+    <h2 class="title">Editar Vehículo</h2>
+    <p class="subtitle">Modifica los campos necesarios y guarda los cambios</p>
+  </header>
+
+  <div class="card-body">
+    <form class="form" (ngSubmit)="actualizarVehiculo()">
+      <div class="form-row">
+        <label for="placa">Placa</label>
+        <input class="input" id="placa" [(ngModel)]="vehiculo.placa" name="placa" />
+      </div>
+
+      <div class="form-row">
+        <label for="marca">Marca</label>
+        <input class="input" id="marca" [(ngModel)]="vehiculo.marca" name="marca" />
+      </div>
+
+      <div class="form-row">
+        <label for="modelo">Modelo</label>
+        <input class="input" id="modelo" [(ngModel)]="vehiculo.modelo" name="modelo" />
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</section>

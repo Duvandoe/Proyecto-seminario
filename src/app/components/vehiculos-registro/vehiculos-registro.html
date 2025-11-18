@@ -1,0 +1,29 @@
+<section class="vehiculo-registro">
+    <div class="card">
+        <header class="card-header">
+            <h1 class="title">Registro de vehículos</h1>
+            <p class="subtitle">Ingrese los datos del vehículo para registrarlo</p>
+        </header>
+
+        <form class="form" novalidate>
+            <div class="form-row">
+                <label for="placa">Placa</label>
+                <input class="input" type="text" id="placa" [(ngModel)]="datos.placa" name="placa" required aria-required="true" placeholder="Ej: ABC-123" />
+            </div>
+
+            <div class="form-row">
+                <label for="marca">Marca</label>
+                <input class="input" type="text" id="marca" [(ngModel)]="datos.marca" name="marca" placeholder="Ej: Toyota" />
+            </div>
+
+            <div class="form-row">
+                <label for="modelo">Modelo</label>
+                <input class="input" type="text" id="modelo" [(ngModel)]="datos.modelo" name="modelo" placeholder="Ej: Corolla" />
+            </div>
+
+            <div class="form-actions">
+                <button class="btn btn-primary" type="button" (click)="registroVehiculo()">Registrar vehículo</button>
+            </div>
+        </form>
+    </div>
+</section>

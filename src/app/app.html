@@ -1,0 +1,5 @@
+<div style="text-align: right; margin: 1rem;" *ngIf="isLoggedIn">
+	<span *ngIf="userEmail" style="margin-right: 1rem;">{{ userEmail }}</span>
+	<button (click)="logout()">Cerrar sesión</button>
+</div>
+<router-outlet></router-outlet>
