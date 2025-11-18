@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^12.6.0",
+    "tslib": "^2.8.1"
+  }
+}
