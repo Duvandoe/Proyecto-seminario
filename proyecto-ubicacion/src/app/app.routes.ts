@@ -4,6 +4,8 @@ import { VehiculosActualizacion } from './components/vehiculos-actualizacion/veh
 import { VehiculosRegistro } from './components/vehiculos-registro/vehiculos-registro';
 import { CallesListaComponent } from './components/calle-lista/calle-lista';
 import { RutasMapaComponent } from './components/rutas-lista/rutas-lista';
+import { LoginComponent } from './auth/login/login';
+import { RegisterComponent } from './auth/register/register';
 
 export const routes: Routes = [
 
@@ -12,6 +14,8 @@ export const routes: Routes = [
     {path: 'vehiculos/editar/:id', component: VehiculosActualizacion},
     { path: '', redirectTo: 'rutas', pathMatch: 'full' },
     { path: 'calles', component: CallesListaComponent },
-    { path: 'rutas', component: RutasMapaComponent }
+    { path: 'rutas', component: RutasMapaComponent },
+    { path: 'login', component: LoginComponent},
+    { path: 'register', component: RegisterComponent }
 
 ];

@@ -1,0 +1,21 @@
+<h2>Crear cuenta</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Email</label>
+  <input type="email" formControlName="email" />
+  <div *ngIf="form.controls['email'].invalid && form.controls['email'].touched">
+    Email inválido
+  </div>
+
+  <label>Contraseña</label>
+  <input type="password" formControlName="password" />
+  <div *ngIf="form.controls['password'].invalid && form.controls['password'].touched">
+    La contraseña debe tener al menos 6 caracteres
+  </div>
+
+  <button type="submit" [disabled]="loading || form.invalid">Registrarse</button>
+
+  <div class="info" *ngIf="infoMsg">{{ infoMsg }}</div>
+  <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+  <a routerLink="/login">Ya tengo cuenta</a>
+</form>
