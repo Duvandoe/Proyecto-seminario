@@ -1,0 +1,17 @@
+<h2>Listado de Calles</h2>
+
+<table border="1" cellpadding="6">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let calle of calles">
+      <td>{{ calle.nombre }}</td>
+      <td>{{ calle.id }}</td>
+    </tr>
+  </tbody>
+</table>
+
