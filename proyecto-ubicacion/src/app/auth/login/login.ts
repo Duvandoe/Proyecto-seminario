@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login.html',
+  styleUrls: ['./login.css']
 })
 export class LoginComponent {
   form!: FormGroup;  
   errorMsg = '';
   loading = false;
+  shakeError = false;
+
 
    
 
@@ -27,15 +30,25 @@ export class LoginComponent {
   });
   }
 
+  gotoRegister() {
+    this.router.navigate(['/register']);
+  }
+
   submit() {
     if (this.form.invalid) return;
     this.loading = true;
     const { email, password } = this.form.value;
     this.auth.signIn(email!, password!).subscribe({
-      next: () => this.router.navigateByUrl('/'),
+      next: () => this.router.navigateByUrl('/rutas'),
       error: (err) => {
-        this.errorMsg = err.message || 'Error al iniciar sesión';
         this.loading = false;
+        if (err.message.includes("Invalid login credentials")) {
+        this.errorMsg = "Correo o contraseña incorrectos";
+        } else {
+          this.errorMsg = err.message || "Error al iniciar sesión";
+        }
+        this.shakeError = true;
+        setTimeout(() => this.shakeError = false, 500);
       }
     });
   }

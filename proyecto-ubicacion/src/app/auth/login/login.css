@@ -1,0 +1,162 @@
+/* === CONTENEDOR GENERAL === */
+.login-wrapper {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 30px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 20px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.15);
+  backdrop-filter: blur(6px);
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  border-top: 6px solid #1b5e20;
+  animation: fadeSlide 0.6s ease forwards;
+}
+
+/* Animación suave */
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* === LOGO === */
+.login-logo {
+  width: 115px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+/* === TÍTULO === */
+.login-title {
+  font-size: 27px;
+  font-weight: 700;
+  color: #1b5e20;
+  margin-bottom: 4px;
+  letter-spacing: 0.5px;
+}
+
+/* === SUBTÍTULO === */
+.login-subtitle {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 25px;
+}
+
+/* === LABELS === */
+label {
+  display: block;
+  text-align: left;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+/* === INPUTS ESTILO GLASS === */
+input {
+  width: 95%;
+  padding: 14px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.7);
+  border: 1.8px solid #cdd7cc;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+/* Hover */
+input:hover {
+  background: rgba(255,255,255,0.9);
+}
+
+/* Focus */
+input:focus {
+  border-color: #1b5e20;
+  box-shadow: 0 0 8px rgba(27,94,32,0.3);
+  outline: none;
+}
+
+/* === ERRORES === */
+.form-error {
+  background: #ffebe8;
+  color: #c62828;
+  padding: 8px 12px;
+  margin-top: -5px;
+  margin-bottom: 12px;
+  border-left: 4px solid #c62828;
+  border-radius: 6px;
+  font-size: 13px;
+  animation: errorPop 0.25s ease;
+}
+
+/* Animación suave de error */
+@keyframes errorPop {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* === BOTÓN === */
+button {
+  margin-top: 15px;
+  width: 100%;
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+/* Hover */
+button:hover:not([disabled]) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(27,94,32,0.35);
+}
+
+/* Inactivo */
+button[disabled] {
+  background: #9e9e9e;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 480px) {
+  .login-wrapper {
+    margin: 30px;
+    padding: 25px;
+  }
+}
+
+.error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: #ffebee;
+  color: #c62828;
+  border-left: 4px solid #c62828;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  opacity: 1;
+  transition: transform 0.2s ease;
+}
+
+/* Animación de shake */
+.shake {
+  animation: shakeAnim 0.35s ease;
+}
+
+@keyframes shakeAnim {
+  0% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+  100% { transform: translateX(0); }
+}
+

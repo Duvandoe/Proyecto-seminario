@@ -20,6 +20,11 @@ export class VehiculosListaComponent implements OnInit {
   cargando = true;
   error: string | null = null;
 
+  // Variables para el modal
+  modalConfirmVisible = false;
+  modalSuccessVisible = false;
+  vehiculoAEliminar: string | null = null;
+
   constructor(private vehiculosService: VehiculosService, private router: Router) {}
 
   ngOnInit(): void {
@@ -29,32 +34,59 @@ export class VehiculosListaComponent implements OnInit {
   obtenerVehiculos() {
     this.vehiculosService.getVehiculos().subscribe({
       next: (data) => {
-        console.log('Vehículos cargados:', data);
         this.vehiculos = data.data;
         this.cargando = false;
       },
-      error: (err) => {
+      error: () => {
         this.error = 'Error al cargar los vehículos';
         this.cargando = false;
       }
     });
   }
+
+  crearVehiculo() {
+    this.router.navigate(['/vehiculos/registro']);
+  }
+
+  gotoRutas() {
+    this.router.navigate(['/rutas']);
+  }
+
   actualizarVehiculo(id: string | undefined) {
     if (!id) return;
     this.router.navigate(['/vehiculos/editar', id]);
   }
 
+  // Llamado desde botón "Eliminar"
   eliminarVehiculo(id: string) {
-  if (!confirm('¿Estás seguro de eliminar este vehículo?')) return;
+    this.vehiculoAEliminar = id;
+    this.modalConfirmVisible = true;
+  }
 
-  this.vehiculosService.deleteVehiculo(id).subscribe({
-    next: () => {
-      alert('Vehículo eliminado correctamente');
-      this.obtenerVehiculos();
-    },
-    error: (err) => {
-      console.error('Error al eliminar vehículo:', err);
-    }
-  });
+  // Cancelar modal
+  cerrarConfirm() {
+    this.modalConfirmVisible = false;
+    this.vehiculoAEliminar = null;
+  }
+
+  // Confirmar eliminación
+  confirmarEliminacion() {
+    if (!this.vehiculoAEliminar) return;
+
+    this.vehiculosService.deleteVehiculo(this.vehiculoAEliminar).subscribe({
+      next: () => {
+        this.modalConfirmVisible = false;
+        this.modalSuccessVisible = true;
+        this.obtenerVehiculos();
+      },
+      error: (err) => {
+        console.error('Error al eliminar vehículo:', err);
+      }
+    });
+  }
+
+  cerrarSuccess() {
+    this.modalSuccessVisible = false;
+  }
 }
-}
+

@@ -5,9 +5,10 @@ import 'leaflet-draw';
 import { FormsModule } from '@angular/forms';
 import { CallesService } from '../../services/calles/calles';
 import { Calle } from '../../../interfaces/Calles';
-import { RutasService } from '../../services/rutas/rutas'; // <-- añadir
-import { Ruta as RutaModel } from '../../../interfaces/Rutas'; // <-- añadir
+import { RutasService } from '../../services/rutas/rutas';
+import { Ruta as RutaModel } from '../../../interfaces/Rutas';
 import { environment } from '../../../environments/environments';
+import { Router } from '@angular/router';
 
 interface Ruta {
   id: number;
@@ -47,10 +48,62 @@ export class RutasMapaComponent implements AfterViewInit, OnDestroy {
   newPerfilId = '1';
   saving = false;
 
+  // selects
+  selectedRutaId: string | null = null;
+  selectedCalleId: string | null = null;
+
+  // labels + open state for custom selects
+  selectedRutaLabel: string | null = null;
+  selectedCalleLabel: string | null = null;
+  rutaListOpen = false;
+  calleListOpen = false;
+
+  // toggle lists
+  toggleRutaList() { this.rutaListOpen = !this.rutaListOpen; this.calleListOpen = false; }
+  toggleCalleList() { this.calleListOpen = !this.calleListOpen; this.rutaListOpen = false; }
+
+  // selection handlers for custom lists
+  selectRuta(ruta: any) {
+    this.selectedRutaId = String(ruta.id);
+    this.selectedRutaLabel = ruta.nombre_ruta;
+    this.rutaListOpen = false;
+    this.onRutaSelect(this.selectedRutaId);
+  }
+
+  selectCalle(calle: any) {
+    this.selectedCalleId = String(calle.id);
+    this.selectedCalleLabel = calle.nombre;
+    this.calleListOpen = false;
+    this.onCalleSelect(this.selectedCalleId);
+  }
+
+  // close dropdowns when clicking outside (optional: register in ngAfterViewInit)
+  // ...existing code...
+
+  // manejar selección de ruta desde el <select>
+  onRutaSelect(id: string | null) {
+    if (!id) return;
+    const ruta = this.rutas.find(r => String(r.id) === String(id));
+    if (ruta) {
+      this.zoomToRuta(ruta);
+    }
+  }
+  
+  // manejar selección de calle desde el <select>
+  onCalleSelect(id: string | null) {
+    if (!id) return;
+    const calle = this.calles.find(c => String(c.id) === String(id));
+    if (calle) {
+      // zoomToCalle debe existir en el componente; si no, implementarlo.
+      (this as any).zoomToCalle?.(calle);
+    }
+  }
+  
   constructor(
     private ngZone: NgZone,
     private callesService: CallesService,
-    private rutasService: RutasService // <-- inyectar servicio de rutas
+    private rutasService: RutasService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -422,5 +475,9 @@ export class RutasMapaComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener('resize', this.onWindowResize);
     this.resizeObserver?.disconnect();
     if (this.map) this.map.remove();
+  }
+
+  gotoVehiculos(){
+    this.router.navigateByUrl('/vehiculos');
   }
 }

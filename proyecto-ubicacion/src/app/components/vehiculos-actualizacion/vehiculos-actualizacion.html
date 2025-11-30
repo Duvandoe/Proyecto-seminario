@@ -1,14 +1,35 @@
-<h2>Editar Vehículo</h2>
+<div class="edit-container">
+  <h2 class="titulo">Editar Vehículo</h2>
 
-    <form (ngSubmit)="actualizarVehiculo()">
-      <label>Placa:</label>
-      <input [(ngModel)]="vehiculo.placa" name="placa" />
+  <div class="card">
+    <form (ngSubmit)="actualizarVehiculo()" class="formulario">
 
-      <label>Marca:</label>
-      <input [(ngModel)]="vehiculo.marca" name="marca" />
+      <div class="campo">
+        <label>Placa</label>
+        <input [(ngModel)]="vehiculo.placa" name="placa" placeholder="Ej: ABC123" />
+      </div>
 
-      <label>Modelo:</label>
-      <input [(ngModel)]="vehiculo.modelo" name="modelo" />
+      <div class="campo">
+        <label>Marca</label>
+        <input [(ngModel)]="vehiculo.marca" name="marca" placeholder="Ej: Toyota" />
+      </div>
 
-      <button type="submit">Guardar Cambios</button>
+      <div class="campo">
+        <label>Modelo</label>
+        <input [(ngModel)]="vehiculo.modelo" name="modelo" placeholder="Ej: 2020" />
+      </div>
+
+      <button type="submit" class="btn-guardar">Guardar Cambios</button>
     </form>
+  </div>
+  <!-- Modal de éxito -->
+<div class="modal-overlay" *ngIf="modalVisible">
+  <div class="modal">
+    <h3>✔ Vehículo actualizado</h3>
+    <p>Los datos fueron guardados correctamente.</p>
+
+    <button class="btn-ok" (click)="cerrarModal()">Aceptar</button>
+  </div>
+</div>
+
+</div>

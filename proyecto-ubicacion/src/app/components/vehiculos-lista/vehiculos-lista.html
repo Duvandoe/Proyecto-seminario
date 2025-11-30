@@ -1,36 +1,83 @@
-<h2>Lista de Vehículos</h2>
+<div class="vehiculos-container">
+  <h2 class="titulo">Lista de Vehículos</h2>
 
-<!-- Estado de carga -->
-<div *ngIf="cargando">Cargando vehículos...</div>
+  <!-- Estado de carga -->
+  <div *ngIf="cargando" class="alert info">
+     Cargando vehículos...
+  </div>
 
-<!-- Error -->
-<div *ngIf="error" style="color: red;">{{ error }}</div>
+  <!-- Error -->
+  <div *ngIf="error" class="alert error">
+     {{ error }}
+  </div>
 
-<!-- Tabla -->
-<table *ngIf="!cargando && !error" border="1" cellpadding="8">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Placa</th>
-      <th>Marca</th>
-      <th>Modelo</th>
-      <th>Activo</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let v of vehiculos">
-      <td>{{ v.id }}</td>
-      <td>{{ v.placa }}</td>
-      <td>{{ v.marca }}</td>
-      <td>{{ v.modelo }}</td>
-      <td>{{ v.activo ? 'Sí' : 'No' }}</td>
-      <td>
-        <button (click)="actualizarVehiculo(v.id)">Editar</button>
-        <button (click)="eliminarVehiculo(v.id!)">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<button (click)="obtenerVehiculos()">Refrescar Lista</button> 
+  <!-- Tabla -->
+  <div class="card" *ngIf="!cargando && !error">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Placa</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Activo</th>
+          <th class="acciones-col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let v of vehiculos">
+          <td>{{ v.id }}</td>
+          <td>{{ v.placa }}</td>
+          <td>{{ v.marca }}</td>
+          <td>{{ v.modelo }}</td>
+          <td>
+            <span class="tag" [class.activo]="v.activo" [class.inactivo]="!v.activo">
+              {{ v.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td class="acciones">
+            <button class="btn edit" (click)="actualizarVehiculo(v.id)">
+               Editar
+            </button>
+            <button class="btn delete" (click)="eliminarVehiculo(v.id!)">
+               Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
+  <button class="refresh-btn" (click)="obtenerVehiculos()">
+    Cargar Lista
+  </button>
+  <button class="refresh-btn" (click)="crearVehiculo()">
+    Crear Vehiculo
+  </button>
+  <button class="refresh-btn" (click)="gotoRutas()">
+    Ver Rutas
+  </button>
+  <!-- Modal de confirmación -->
+<div class="modal-overlay" *ngIf="modalConfirmVisible">
+  <div class="modal">
+    <h3>¿Eliminar vehículo?</h3>
+    <p>Esta acción no se puede deshacer.</p>
+
+    <div class="modal-btns">
+      <button class="btn cancel" (click)="cerrarConfirm()">Cancelar</button>
+      <button class="btn delete" (click)="confirmarEliminacion()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de éxito -->
+<div class="modal-overlay" *ngIf="modalSuccessVisible">
+  <div class="modal">
+    <h3>✔ Vehículo eliminado</h3>
+    <p>El registro ha sido eliminado correctamente.</p>
+
+    <button class="btn ok" (click)="cerrarSuccess()">Aceptar</button>
+  </div>
+</div>
+
+</div>

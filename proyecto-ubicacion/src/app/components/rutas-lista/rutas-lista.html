@@ -20,34 +20,41 @@
           {{ saving ? 'Guardando...' : 'Guardar trazo' }}
         </button>
         <button (click)="cancelDraw()" [disabled]="!lastGeo">Cancelar trazo</button>
+        <button class="boton" (click)="gotoVehiculos()">Ver Vehiculos</button>
       </div>
 
       <h3 style="margin-top:16px;">Rutas</h3>
-      <table *ngIf="rutas.length > 0; else sinRutas">
-        <thead>
-          <tr><th>Nombre</th><th>Color</th><th>Perfil</th></tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let ruta of rutas" (click)="zoomToRuta(ruta)">
-            <td>{{ ruta.nombre_ruta }}</td>
-            <td><span class="color-box" [style.background]="ruta.color_hex"></span>{{ ruta.color_hex }}</td>
-            <td>{{ ruta.perfil_id }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <ng-template #sinRutas><p>No hay rutas registradas.</p></ng-template>
+
+      <div class="custom-select">
+        <div class="select-toggle" (click)="toggleRutaList()" [attr.aria-expanded]="rutaListOpen">
+          <span class="select-label">{{ selectedRutaLabel || '-- Selecciona una ruta --' }}</span>
+          <span class="chev">▾</span>
+        </div>
+
+        <ul class="select-list" *ngIf="rutaListOpen">
+          <li *ngFor="let ruta of rutas" class="select-item" (click)="selectRuta(ruta)">
+            <span class="color-dot" [style.background]="ruta.color_hex || '#cbd5e1'"></span>
+            <span class="item-text">{{ ruta.nombre_ruta }}</span>
+            <span class="item-hex" *ngIf="ruta.color_hex">{{ ruta.color_hex }}</span>
+          </li>
+        </ul>
+      </div>
 
       <h3 style="margin-top:16px;">Calles</h3>
-      <table *ngIf="calles.length > 0; else sinCalles">
-        <thead><tr><th>Nombre</th><th>ID</th></tr></thead>
-        <tbody>
-          <tr *ngFor="let calle of calles" (click)="zoomToCalle(calle)">
-            <td>{{ calle.nombre }}</td>
-            <td>{{ calle.id }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <ng-template #sinCalles><p>No hay calles registradas.</p></ng-template>
+
+      <div class="custom-select">
+        <div class="select-toggle" (click)="toggleCalleList()" [attr.aria-expanded]="calleListOpen">
+          <span class="select-label">{{ selectedCalleLabel || '-- Selecciona una calle --' }}</span>
+          <span class="chev">▾</span>
+        </div>
+
+        <ul class="select-list" *ngIf="calleListOpen">
+          <li *ngFor="let calle of calles" class="select-item" (click)="selectCalle(calle)">
+            <span class="item-text">{{ calle.nombre }}</span>
+            <span class="item-sub">{{ calle.id }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

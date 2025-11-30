@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, map, Observable } from 'rxjs';
 import { supabase } from '../../supabaseClient';
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
 export interface AuthUser {
   id: string;
@@ -17,24 +18,29 @@ export class AuthService {
     this.initSession();
 
     // Escuchar cambios de sesión (login/logout, refresh)
-    supabase.auth.onAuthStateChange((_event, session) => {
-  const user = session?.user
-    ? { id: session.user.id, email: session.user.email ?? '' }
-    : null;
-  this.user$.next(user);
-})
+    supabase.auth.onAuthStateChange(
+      (event: AuthChangeEvent, session: Session | null) => {
+        const user = session?.user
+          ? { id: session.user.id, email: session.user.email ?? '' }
+          : null;
+        this.user$.next(user);
+      }
+    );
   }
 
   private async initSession() {
-  if (this.sessionInitialized) return;
-  const { data } = await supabase.auth.getSession();
-  const session = data.session;
-  const user = session?.user
-    ? { id: session.user.id, email: session.user.email ?? '' }
-    : null;
-  this.user$.next(user);
-  this.sessionInitialized = true;
-}
+    if (this.sessionInitialized) return;
+
+    const { data } = await supabase.auth.getSession();
+    const session = data.session;
+
+    const user = session?.user
+      ? { id: session.user.id, email: session.user.email ?? '' }
+      : null;
+
+    this.user$.next(user);
+    this.sessionInitialized = true;
+  }
 
   getUser(): Observable<AuthUser | null> {
     return this.user$.asObservable();
@@ -74,4 +80,3 @@ export class AuthService {
     );
   }
 }
-

@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.html',
+  styleUrls: ['./register.css']
 })
 export class RegisterComponent {
   form!: FormGroup;
@@ -25,6 +26,12 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
+
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 
   submit() {
     if (this.form.invalid) return;

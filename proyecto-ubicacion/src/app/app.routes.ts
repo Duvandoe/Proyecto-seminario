@@ -12,7 +12,7 @@ export const routes: Routes = [
     {path: 'vehiculos', component: VehiculosListaComponent},
     {path: 'vehiculos/registro', component: VehiculosRegistro},
     {path: 'vehiculos/editar/:id', component: VehiculosActualizacion},
-    { path: '', redirectTo: 'rutas', pathMatch: 'full' },
+    { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'calles', component: CallesListaComponent },
     { path: 'rutas', component: RutasMapaComponent },
     { path: 'login', component: LoginComponent},

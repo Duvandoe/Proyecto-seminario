@@ -1,0 +1,153 @@
+/* === Contenedor principal === */
+.register-wrapper {
+  max-width: 420px;
+  margin: 60px auto;
+  padding: 32px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.12);
+  font-family: "Segoe UI", Arial, sans-serif;
+  border-left: 6px solid #2e7d32;
+  animation: fadeIn 0.5s ease forwards;
+  text-align: center;
+}
+
+/* Título */
+.register-wrapper h2 {
+  font-size: 26px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* === LOGO === */
+.register-logo {
+  width: 115px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+}
+
+/* === Inputs y etiquetas === */
+label {
+  display: block;
+  margin-top: 18px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: #2b2b2b;
+  font-weight: 600;
+  text-align: left;
+}
+
+input[type="email"],
+input[type="password"] {
+  width: 90%;
+  padding: 14px;
+  border: 2px solid #d1d8d1;
+  border-radius: 10px;
+  background: #fafafa;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+/* Efectos */
+input:hover {
+  background: #ffffff;
+}
+
+input:focus {
+  border-color: #2e7d32;
+  outline: none;
+  background: #ffffff;
+  box-shadow: 0 0 8px rgba(46,125,50,0.3);
+}
+
+/* Error de validación */
+form div[ng-reflect-ng-if],
+.error {
+  color: #d84315;
+  font-size: 13px;
+  margin-top: 6px;
+  background: #ffebe5;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border-left: 3px solid #d84315;
+  text-align: left;
+  animation: shake 0.2s linear;
+}
+
+/* Mensaje informativo */
+.info {
+  margin-top: 18px;
+  padding: 10px;
+  background: #e8f5e9;
+  border-left: 4px solid #2e7d32;
+  color: #2e7d32;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* Animación error */
+@keyframes shake {
+  0% { transform: translateX(0px); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0px); }
+}
+
+/* === Botón === */
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 22px;
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+button:hover:not([disabled]) {
+  background: #256628;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+}
+
+button[disabled] {
+  background: #b5b5b5 !important;
+  cursor: not-allowed;
+}
+
+/* === Enlace de regreso === */
+a {
+  display: block;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #2e7d32;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Fade-in */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .register-wrapper {
+    margin: 20px;
+    padding: 24px;
+  }
+}

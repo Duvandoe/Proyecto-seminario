@@ -39,17 +39,24 @@ export class VehiculosActualizacion implements OnInit {
     }
   }
   
-  actualizarVehiculo() {
-    if (!this.vehiculo.id) return;
+  modalVisible = false;
 
-    this.vehiculosService.updateVehiculo(this.vehiculo.id, this.vehiculo).subscribe({
-      next: (res) => {
-        alert('Vehículo actualizado correctamente');
-        this.router.navigate(['/vehiculos']);
-      },
-      error: (err) => {
-        console.error('Error al actualizar:', err);
-      }
-    });
-  }
+actualizarVehiculo() {
+  if (!this.vehiculo.id) return;
+
+  this.vehiculosService.updateVehiculo(this.vehiculo.id, this.vehiculo).subscribe({
+    next: () => {
+      this.modalVisible = true; // mostrar modal
+    },
+    error: (err) => {
+      console.error('Error al actualizar:', err);
+    }
+  });
+}
+
+cerrarModal() {
+  this.modalVisible = false;
+  this.router.navigate(['/vehiculos']);
+}
+
 }
