@@ -1,0 +1,79 @@
+<div class="container">
+  <h2>Rutas y Mapa</h2>
+
+  <div class="content-wrapper">
+    <!-- Contenedor del mapa -->
+    <div id="container-mapa" #containerMapa>
+      <div id="map" #mapEl></div>
+    </div>
+
+    <!-- Panel de control y listas -->
+    <div class="rutas-lista">
+
+      <!-- Crear trazo -->
+      <h3>Crear trazo</h3>
+      <div class="draw-controls">
+        <label>
+          Nombre:
+          <input type="text" [(ngModel)]="newRutaName">
+        </label>
+        <label>
+          Color:
+          <input type="color" [(ngModel)]="newRutaColor" [value]="newRutaColor || '#ff0000'">
+        </label>
+        <p>Usa la herramienta de dibujo en el mapa (ícono de línea) para trazar. Después haz Guardar.</p>
+
+        <button (click)="saveDrawnRuta()" [disabled]="!lastGeo || saving">
+          {{ saving ? 'Guardando...' : 'Guardar trazo' }}
+        </button>
+        <button (click)="cancelDraw()" [disabled]="!lastGeo">Cancelar trazo</button>
+      </div>
+
+      <!-- Botones de limpieza y logout -->
+      <button (click)="limpiarMapa()" class="btn-limpiar">🧹 Limpiar mapa</button>
+      <button (click)="logout()" class="btn-logout">Cerrar Sesión</button>
+
+      <!-- Lista de rutas -->
+      <h3 style="margin-top:16px;">Rutas</h3>
+      <table *ngIf="rutas.length > 0; else sinRutas">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Color</th>
+            <th>Perfil</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ruta of rutas" (click)="resaltarRuta(ruta)">
+            <td>{{ ruta.nombre_ruta }}</td>
+            <td>
+              <span class="color-box" [style.background]="ruta.color_hex"></span>
+              {{ ruta.color_hex }}
+            </td>
+            <td>{{ ruta.perfil_id }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #sinRutas><p>No hay rutas registradas.</p></ng-template>
+
+      <!-- Lista de calles -->
+      <h3 style="margin-top:16px;">Calles</h3>
+      <table *ngIf="calles.length > 0; else sinCalles">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let calle of calles" (click)="resaltarCalle(calle)">
+            <td>{{ calle.nombre }}</td>
+            <td>{{ calle.id }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #sinCalles><p>No hay calles registradas.</p></ng-template>
+
+    </div>
+  </div>
+</div>
