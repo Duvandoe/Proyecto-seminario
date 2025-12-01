@@ -1,16 +1,57 @@
-<h1>Registro de vehiculos</h1>
+<div class="vehiculos-container">
+  <h2 class="titulo">Registrar Vehículo</h2>
 
-<form>
+  <div class="card form-card">
+    <form class="form">
 
-    <label for="placa">Placa:</label>
-    <input type="text" id="placa" [(ngModel)]="datos.placa" name="placa" required>
-    
-    <label for="marca">Marca:</label>
-    <input type="text" id="marca" [(ngModel)]="datos.marca" name="marca">
-    
-    <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" [(ngModel)]="datos.modelo" name="modelo">
-    
-    <button type="button" (click)="registroVehiculo()">Registrar Vehículo</button>
+      <!-- PLACA -->
+      <label class="floating">
+        <input type="text" placeholder=" " id="placa" name="placa"
+               [(ngModel)]="datos.placa" required>
+        <span>Placa</span>
+      </label>
 
-</form>
+      <!-- MARCA -->
+      <label class="floating">
+        <input type="text" placeholder=" " id="marca" name="marca"
+               [(ngModel)]="datos.marca">
+        <span>Marca</span>
+      </label>
+
+      <!-- MODELO -->
+      <label class="floating">
+        <input type="text" placeholder=" " id="modelo" name="modelo"
+               [(ngModel)]="datos.modelo">
+        <span>Modelo</span>
+      </label>
+
+      <button type="button" class="btn primary" (click)="registroVehiculo()">
+        Registrar Vehículo
+      </button>
+    </form>
+  </div>
+
+  <button class="refresh-btn" (click)="volverLista()">
+    Volver a la Lista
+  </button>
+
+
+  <!-- MODAL DE ÉXITO -->
+  <div class="modal-overlay" *ngIf="modalSuccessVisible">
+    <div class="modal">
+      <h3>✔ Vehículo registrado</h3>
+      <p>El vehículo se ha guardado correctamente.</p>
+      <button class="btn ok" (click)="cerrarSuccess()">Aceptar</button>
+    </div>
+  </div>
+
+  <!-- MODAL DE ERROR -->
+  <div class="modal-overlay" *ngIf="modalErrorVisible">
+    <div class="modal">
+      <h3>Error</h3>
+      <p>{{ errorMensaje }}</p>
+      <button class="btn cancel" (click)="cerrarError()">Cerrar</button>
+    </div>
+  </div>
+
+</div>

@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environments';
 import { VehiculosService } from '../../services/vehiculos/vehiculos';
 import { Vehiculo } from '../../../interfaces/Vehiculo';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   standalone: true,
@@ -29,16 +30,34 @@ export class VehiculosRegistro {
     activo: true,
   };
 
-  constructor(private vehiculosService: VehiculosService) { }
+  modalSuccessVisible = false;
+  modalErrorVisible = false;
+  errorMensaje = "";
+
+  constructor(private vehiculosService: VehiculosService, private router: Router) { }
 
   registroVehiculo() {
     this.vehiculosService.createVehiculo(this.datos).subscribe({
-      next: (respuesta) => {
-        console.log('Vehículo registrado:', respuesta);
+      next: () => {
+        this.modalSuccessVisible = true;
       },
       error: (error) => {
-        console.error('Error al registrar vehículo:', error);
+        this.errorMensaje = "Error al registrar el vehículo";
+        this.modalErrorVisible = true;
       }
     })
   }
+
+  cerrarSuccess() {
+  this.modalSuccessVisible = false;
+  this.router.navigate(['/vehiculos']);
+}
+
+cerrarError() {
+  this.modalErrorVisible = false;
+}
+
+volverLista() {
+  this.router.navigate(['/vehiculos']);
+}
 }

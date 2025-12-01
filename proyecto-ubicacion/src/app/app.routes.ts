@@ -7,6 +7,7 @@ import { RutasMapaComponent } from './components/rutas-lista/rutas-lista';
 import { LoginComponent } from './auth/login/login';
 import { RegisterComponent } from './auth/register/register';
 
+
 export const routes: Routes = [
 
     {path: 'vehiculos', component: VehiculosListaComponent},
@@ -16,6 +17,5 @@ export const routes: Routes = [
     { path: 'calles', component: CallesListaComponent },
     { path: 'rutas', component: RutasMapaComponent },
     { path: 'login', component: LoginComponent},
-    { path: 'register', component: RegisterComponent }
-
+    { path: 'register', component: RegisterComponent },
 ];
