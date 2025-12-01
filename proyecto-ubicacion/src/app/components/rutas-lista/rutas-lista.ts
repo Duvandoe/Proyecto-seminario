@@ -9,6 +9,7 @@ import { RutasService } from '../../services/rutas/rutas';
 import { Ruta as RutaModel } from '../../../interfaces/Rutas';
 import { environment } from '../../../environments/environments';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth/AuthService';
 
 interface Ruta {
   id: number;
@@ -103,7 +104,8 @@ export class RutasMapaComponent implements AfterViewInit, OnDestroy {
     private ngZone: NgZone,
     private callesService: CallesService,
     private rutasService: RutasService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngAfterViewInit(): void {
@@ -480,4 +482,16 @@ export class RutasMapaComponent implements AfterViewInit, OnDestroy {
   gotoVehiculos(){
     this.router.navigateByUrl('/vehiculos');
   }
+
+  logout() {
+    this.authService.signOut().subscribe({
+      next: () => {
+        this.router.navigate(['/login']); // Redirige al login después del logout
+      },
+      error: (err) => {
+        console.error('Error al cerrar sesión:', err);
+      }
+    });
+  }
+  
 }
